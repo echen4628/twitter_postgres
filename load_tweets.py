@@ -241,12 +241,12 @@ def insert_tweet(connection,tweet):
             sql = sqlalchemy.sql.text('''
                 SELECT 1 FROM users WHERE id_users = :user_id;
             ''')
-            res = connection.execute(sql, user_id=tweet['in_reply_to_user_id'])
+            res = connection.execute(sql, {user_id:tweet['in_reply_to_user_id']})
             if res.first() is None:
                 insert_sql = sqlalchemy.sql.text('''
                     INSERT INTO users (id_users) VALUES (:user_id);
                 ''')
-                connection.execute(insert_sql, user_id=tweet['in_reply_to_user_id'])
+                connection.execute(insert_sql, {user_id:tweet['in_reply_to_user_id'})
 
         # insert the tweet
         sql=sqlalchemy.sql.text('''
